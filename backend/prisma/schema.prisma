@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 1. Tabela de Clientes
+model User {
+  id        Int           @id @default(autoincrement())
+  email     String        @unique
+  name      String
+  password  String        
+  
+  // Relação: O prisma entende que aqui estarão os agendamentos desse cliente
+  appointments Appointment[] 
+
+  @@map("users") // Nome da tabela no banco
+}
+
+// 2. Tabela de Agendamentos
+model Appointment {
+  id        Int      @id @default(autoincrement())
+  dataHora  DateTime // Guarda dia e hora juntos (ex: 2023-11-27T14:30:00)
+  servico   String   // Ex: "Corte Social"
+  
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@map("agendamentos") 
+}
