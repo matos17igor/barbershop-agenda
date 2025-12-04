@@ -84,6 +84,25 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get("/appointments", async (req, res) => {
+  try {
+    const appointments = await prisma.appointment.findMany({
+      // O include é o "JOIN" do Prisma.
+      // Estamos dizendo: "Traga também os dados do dono desse agendamento"
+      include: {
+        user: true,
+      },
+      orderBy: {
+        dataHora: "asc",
+      },
+    });
+
+    res.json(appointments);
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao buscar agendamentos" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
