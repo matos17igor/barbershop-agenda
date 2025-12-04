@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const navigate = useNavigate();
@@ -21,18 +21,20 @@ export default function Login() {
         return;
       }
 
-      const usuario = await resposta.json();
+      const dadosUsuario = await resposta.json();
 
-      // Salva o usuário no navegador para não perder se atualizar a página
-      localStorage.setItem("usuario", JSON.stringify(usuario));
+      // 1. Salva no localStorage (para persistir se der F5)
+      localStorage.setItem("usuario", JSON.stringify(dadosUsuario));
 
-      alert(`Bem-vindo, ${usuario.name}!`);
+      // 2. ATUALIZA O ESTADO DO APP (Isso faz a Navbar mudar na hora!)
+      onLogin(dadosUsuario);
 
-      // === AQUI ACONTECE O REDIRECIONAMENTO ===
-      if (usuario.tipo === "admin") {
-        navigate("/admin"); // Barbeiro vai para o painel
+      alert(`Bem-vindo, ${dadosUsuario.name}!`);
+
+      if (dadosUsuario.tipo === "admin") {
+        navigate("/admin");
       } else {
-        navigate("/agendar"); // Cliente vai para o agendamento
+        navigate("/agendar");
       }
     } catch (error) {
       alert("Erro ao conectar no servidor.");
@@ -43,7 +45,7 @@ export default function Login() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h2 className="mb-6 text-2xl font-bold text-center text-blue-600">
-          Faça seu Login 🔐
+          Login 🔐
         </h2>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
