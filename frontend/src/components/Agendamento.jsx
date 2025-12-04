@@ -1,18 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Agendamento() {
-  const [userId, setUserId] = useState("");
-  const [servico, setServico] = useState("");
+  const [servico, setServico] = useState("Corte de Cabelo");
   const [dataHora, setDataHora] = useState("");
+  const [usuarioLogado, setUsuarioLogado] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const usuarioSalvo = localStorage.getItem("usuario");
+
+    if (usuarioSalvo) {
+      setUsuarioLogado(JSON.parse(usuarioSalvo));
+    } else {
+      alert("Você precisa entrar para agendar!");
+      navigate("/");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const dadosAgendamento = {
-      userId: Number(userId),
+      userId: usuarioLogado.id,
       servico: servico,
       dataHora: dataHora,
     };
+
+    if (!usuarioLogado) return;
 
     try {
       const resposta = await fetch("http://localhost:3001/appointments", {
@@ -25,13 +41,11 @@ export default function Agendamento() {
 
       if (!resposta.ok) {
         const erro = await resposta.json();
-        throw new Error(erro.error || erro.erro || "Erro ao agendar");
+        throw new Error(erro.error || "Erro ao agendar");
       }
 
-      alert("Agendamento realizado com sucesso! ✂️");
-
-      setUserId("");
-      setDataHora("");
+      alert(`Agendamento confirmado para ${usuarioLogado.name}! ✂️`);
+      setDataHora(""); // Limpa só a data
     } catch (error) {
       alert("Erro: " + error.message);
     }
@@ -44,29 +58,21 @@ export default function Agendamento() {
           Agendar Horário ✂️
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* ID DO USUÁRIO (Temporário até termos Login) */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              ID do Usuário
-            </label>
-            <input
-              type="number"
-              className="w-full p-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
-              placeholder="Ex: 1"
-              required
-            />
-          </div>
+        {usuarioLogado && (
+          <p className="mb-4 text-center text-gray-600">
+            Agendando para: <strong>{usuarioLogado.name}</strong>
+          </p>
+        )}
 
-          {/* SELEÇÃO DE SERVIÇO */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* REMOVEMOS O CAMPO DE ID DO USUÁRIO DAQUI */}
+
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Serviço
             </label>
             <select
-              className="w-full p-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white"
+              className="w-full p-2 mt-1 border rounded-md bg-white"
               value={servico}
               onChange={(e) => setServico(e.target.value)}
             >
@@ -77,14 +83,13 @@ export default function Agendamento() {
             </select>
           </div>
 
-          {/* DATA E HORA */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Data e Hora
             </label>
             <input
               type="datetime-local"
-              className="w-full p-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-2 mt-1 border rounded-md"
               value={dataHora}
               onChange={(e) => setDataHora(e.target.value)}
               required
