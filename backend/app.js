@@ -62,6 +62,28 @@ app.post("/appointments", async (req, res) => {
   }
 });
 
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+    });
+
+    if (!user || user.password !== password) {
+      return res.status(401).json({ error: "Email ou senha incorretos" });
+    }
+
+    res.json({
+      id: user.id,
+      name: user.name,
+      tipo: user.tipo,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

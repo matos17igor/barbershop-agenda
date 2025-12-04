@@ -19,7 +19,7 @@ model User {
   email     String        @unique
   name      String
   password  String        
-  
+  tipo         String        @default("cliente")
   // Relação: O prisma entende que aqui estarão os agendamentos desse cliente
   appointments Appointment[] 
 
