@@ -28,6 +28,38 @@ app.post("/users", async (req, res) => {
   }
 });
 
+app.post("/appointments", async (req, res) => {
+  const { userId, servico, dataHora } = req.body;
+
+  try {
+    const dateISO = new Date(dataHora);
+
+    const agendamentoExistente = await prisma.appointment.findFirst({
+      where: {
+        dataHora: dateISO,
+      },
+    });
+
+    if (agendamentoExistente) {
+      return res
+        .status(400)
+        .json({ erro: "Horario ja ocupado! Escolha outro." });
+    }
+
+    const appointment = await prisma.appointment.create({
+      data: {
+        userId: userId,
+        servico: servico,
+        dataHora: dateISO,
+      },
+    });
+
+    return res.status(201).json(appointment);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
