@@ -1,7 +1,10 @@
+// imports
 import Cadastro from "./components/Cadastro";
 import Agendamento from "./components/Agendamento";
 import Login from "./components/Login";
+import Admin from "./components/Admin";
 
+// routes
 import { Routes, Route, Link } from "react-router-dom";
 
 function App() {
@@ -16,17 +19,15 @@ function App() {
           <Link to="/" className="hover:text-blue-200">
             Cadastro
           </Link>
-          <Link to="/agendar" className="hover:text-blue-200">
-            Agendar
-          </Link>
         </div>
       </nav>
 
       <div className="container p-4 mx-auto">
         <Routes>
-          <Route path="/" element={<Cadastro />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/agendar" element={<Agendamento />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </div>
     </div>

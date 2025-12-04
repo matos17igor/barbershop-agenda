@@ -29,7 +29,7 @@ export default function Login() {
       alert(`Bem-vindo, ${usuario.name}!`);
 
       // === AQUI ACONTECE O REDIRECIONAMENTO ===
-      if (usuario.tipo === "barbeiro") {
+      if (usuario.tipo === "admin") {
         navigate("/admin"); // Barbeiro vai para o painel
       } else {
         navigate("/agendar"); // Cliente vai para o agendamento
