@@ -16,7 +16,7 @@ function App() {
           <Link to="/login" className="hover:text-blue-200">
             Login
           </Link>
-          <Link to="/" className="hover:text-blue-200">
+          <Link to="/cadastro" className="hover:text-blue-200">
             Cadastro
           </Link>
         </div>
@@ -25,6 +25,7 @@ function App() {
       <div className="container p-4 mx-auto">
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/agendar" element={<Agendamento />} />
           <Route path="/admin" element={<Admin />} />
