@@ -103,6 +103,21 @@ app.get("/appointments", async (req, res) => {
   }
 });
 
+app.delete("/appointments/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await prisma.appointment.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+    res.status(200).json({ message: "Agendamento cancelado com sucesso!" });
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao deletar agendamento" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
