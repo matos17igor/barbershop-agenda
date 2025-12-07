@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Cadastro() {
   const [nome, setNome] = useState("");
@@ -28,13 +29,13 @@ export default function Cadastro() {
         throw new Error(erroData.error || "Erro ao cadastrar");
       }
 
-      alert("Usuário cadastrado com sucesso! 🚀");
+      toast.success("Usuário cadastrado com sucesso! 🚀");
 
       setNome("");
       setEmail("");
       setSenha("");
     } catch (error) {
-      alert("Erro: " + error.message);
+      toast.success("Erro: " + error.message);
     }
   };
 

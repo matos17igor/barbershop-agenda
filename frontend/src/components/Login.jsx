@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Login({ onLogin }) {
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ export default function Login({ onLogin }) {
       });
 
       if (!resposta.ok) {
-        alert("Email ou senha inválidos! ❌");
+        toast.success("Email ou senha inválidos! ❌");
         return;
       }
 
@@ -29,7 +30,7 @@ export default function Login({ onLogin }) {
       // 2. ATUALIZA O ESTADO DO APP (Isso faz a Navbar mudar na hora!)
       onLogin(dadosUsuario);
 
-      alert(`Bem-vindo, ${dadosUsuario.name}!`);
+      toast.success(`Bem-vindo, ${dadosUsuario.name}!`);
 
       if (dadosUsuario.tipo === "admin") {
         navigate("/admin");
@@ -37,7 +38,7 @@ export default function Login({ onLogin }) {
         navigate("/agendar");
       }
     } catch (error) {
-      alert("Erro ao conectar no servidor.");
+      toast.success("Erro ao conectar no servidor.");
     }
   };
 

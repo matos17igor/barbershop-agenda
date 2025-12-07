@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Admin() {
   const [agendamentos, setAgendamentos] = useState([]);
@@ -9,7 +10,7 @@ export default function Admin() {
       const dados = await resposta.json();
       setAgendamentos(dados);
     } catch (error) {
-      alert("Erro ao carregar agenda");
+      toast.success("Erro ao carregar agenda");
     }
   }
 
@@ -29,12 +30,12 @@ export default function Admin() {
 
       if (resposta.ok) {
         setAgendamentos(agendamentos.filter((item) => item.id !== id));
-        alert("Agendamento cancelado!");
+        toast.success("Agendamento cancelado!");
       } else {
-        alert("Erro ao cancelar.");
+        toast.success("Erro ao cancelar.");
       }
     } catch (error) {
-      alert("Erro de conexao.");
+      toast.success("Erro de conexao.");
     }
   }
 

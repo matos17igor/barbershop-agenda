@@ -1,10 +1,16 @@
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+
+// components
 import Cadastro from "./components/Cadastro";
 import Agendamento from "./components/Agendamento";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
 import RotaProtegida from "./components/RotaProtegida";
+
+// toastify
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [usuario, setUsuario] = useState(null);
@@ -88,6 +94,7 @@ function App() {
           />
         </Routes>
       </div>
+      <ToastContainer position="bottom-right" theme="colored" />
     </div>
   );
 }

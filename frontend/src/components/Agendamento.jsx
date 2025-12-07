@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Agendamento() {
   const [servico, setServico] = useState("Corte de Cabelo");
@@ -44,10 +45,10 @@ export default function Agendamento() {
         throw new Error(erro.error || "Erro ao agendar");
       }
 
-      alert(`Agendamento confirmado para ${usuarioLogado.name}! ✂️`);
+      toast.success(`Agendamento confirmado para ${usuarioLogado.name}! ✂️`);
       setDataHora(""); // Limpa só a data
     } catch (error) {
-      alert("Erro: " + error.message);
+      toast.success("Erro: " + error.message);
     }
   };
 
