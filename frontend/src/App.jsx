@@ -1,9 +1,10 @@
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react"; // <--- Importe useEffect e useState
+import { useState, useEffect } from "react";
 import Cadastro from "./components/Cadastro";
 import Agendamento from "./components/Agendamento";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
+import RotaProtegida from "./components/RotaProtegida";
 
 function App() {
   const [usuario, setUsuario] = useState(null);
@@ -66,11 +67,25 @@ function App() {
 
       <div className="container p-4 mx-auto">
         <Routes>
-          {/* Passamos a função setUsuario para o Login poder avisar quando entrar */}
           <Route path="/" element={<Login onLogin={setUsuario} />} />
           <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/agendar" element={<Agendamento />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route
+            path="/agendar"
+            element={
+              <RotaProtegida>
+                <Agendamento />
+              </RotaProtegida>
+            }
+          />
+          s
+          <Route
+            path="/admin"
+            element={
+              <RotaProtegida nivelExigido="admin">
+                <Admin />
+              </RotaProtegida>
+            }
+          />
         </Routes>
       </div>
     </div>
