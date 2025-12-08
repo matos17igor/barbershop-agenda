@@ -118,6 +118,27 @@ app.delete("/appointments/:id", async (req, res) => {
   }
 });
 
+// Rota para pegar agendamentos de um usuário específico
+app.get("/appointments/user/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const appointments = await prisma.appointment.findMany({
+      where: {
+        userId: Number(userId),
+      },
+      orderBy: {
+        dataHora: "asc",
+      },
+    });
+
+    res.json(appointments);
+  } catch (error) {
+    console.error("Erro no backend:", error);
+    res.status(500).json({ error: "Erro ao buscar seus agendamentos" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

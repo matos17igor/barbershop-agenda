@@ -7,6 +7,7 @@ import Agendamento from "./components/Agendamento";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
 import RotaProtegida from "./components/RotaProtegida";
+import MeusAgendamentos from "./components/MeusAgendamentos";
 
 // toastify
 import { ToastContainer } from "react-toastify";
@@ -24,7 +25,7 @@ function App() {
     }
   }, []);
 
-  // 2. Função de Sair
+  // Função de Sair
   const handleLogout = () => {
     localStorage.removeItem("usuario"); // Apaga do navegador
     setUsuario(null); // Apaga da memória do React
@@ -39,16 +40,35 @@ function App() {
         <div className="flex items-center gap-4">
           {usuario ? (
             <>
-              <span className="text-sm font-light">Olá, {usuario.name}</span>
+              <span className="text-sm font-light mr-2">
+                Olá, {usuario.name}
+              </span>
 
+              {/* LÓGICA DO MENU: É Admin ou Cliente? */}
               {usuario.tipo === "admin" ? (
-                <Link to="/admin" className="hover:text-blue-200 font-bold">
+                // SE FOR ADMIN:
+                <Link
+                  to="/admin"
+                  className="hover:text-blue-200 font-bold mr-4"
+                >
                   Painel
                 </Link>
               ) : (
-                <Link to="/agendar" className="hover:text-blue-200 font-bold">
-                  Agendar
-                </Link>
+                // SE FOR CLIENTE (Aqui estava faltando o segundo link):
+                <>
+                  <Link
+                    to="/agendar"
+                    className="hover:text-blue-200 font-bold mr-4"
+                  >
+                    Novo Agendamento
+                  </Link>
+                  <Link
+                    to="/meus-agendamentos"
+                    className="hover:text-blue-200 font-bold mr-4"
+                  >
+                    Meus Horários
+                  </Link>
+                </>
               )}
 
               <button
@@ -59,8 +79,9 @@ function App() {
               </button>
             </>
           ) : (
+            // NÃO LOGADO
             <>
-              <Link to="/" className="hover:text-blue-200">
+              <Link to="/" className="hover:text-blue-200 mr-4">
                 Login
               </Link>
               <Link to="/cadastro" className="hover:text-blue-200">
@@ -75,6 +96,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login onLogin={setUsuario} />} />
           <Route path="/cadastro" element={<Cadastro />} />
+
           <Route
             path="/agendar"
             element={
@@ -83,7 +105,16 @@ function App() {
               </RotaProtegida>
             }
           />
-          s
+
+          <Route
+            path="/meus-agendamentos"
+            element={
+              <RotaProtegida>
+                <MeusAgendamentos />
+              </RotaProtegida>
+            }
+          />
+
           <Route
             path="/admin"
             element={
@@ -94,6 +125,7 @@ function App() {
           />
         </Routes>
       </div>
+
       <ToastContainer position="bottom-right" theme="colored" />
     </div>
   );
