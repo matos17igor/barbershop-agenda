@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Admin from "./components/Admin";
 import RotaProtegida from "./components/RotaProtegida";
 import MeusAgendamentos from "./components/MeusAgendamentos";
+import Perfil from "./components/Perfil";
 
 // toastify
 import { ToastContainer } from "react-toastify";
@@ -40,9 +41,13 @@ function App() {
         <div className="flex items-center gap-4">
           {usuario ? (
             <>
-              <span className="text-sm font-light mr-2">
-                Olá, {usuario.name}
-              </span>
+              <Link
+                to="/perfil"
+                className="text-sm font-light mr-4 hover:underline hover:text-yellow-200 flex items-center gap-1"
+              >
+                <span>👤</span>
+                <span>Olá, {usuario.name}</span>
+              </Link>
 
               {usuario.tipo === "admin" ? (
                 // SE FOR ADMIN:
@@ -118,6 +123,14 @@ function App() {
             element={
               <RotaProtegida nivelExigido="admin">
                 <Admin />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="/perfil"
+            element={
+              <RotaProtegida>
+                <Perfil />
               </RotaProtegida>
             }
           />
