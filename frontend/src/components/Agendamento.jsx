@@ -48,7 +48,7 @@ export default function Agendamento() {
       toast.success(`Agendamento confirmado para ${usuarioLogado.name}! ✂️`);
       setDataHora(""); // Limpa só a data
     } catch (error) {
-      toast.success("Erro: " + error.message);
+      toast.error("Erro: " + error.message);
     }
   };
 

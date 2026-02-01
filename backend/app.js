@@ -42,15 +42,26 @@ app.post("/appointments", async (req, res) => {
       },
     });
 
+    // Agendamento com antecendencia de 24hrs
+    const umDiaEmMilissegundos = 24 * 60 * 60 * 1000;
+    const dateMin = new Date(Date.now() + umDiaEmMilissegundos);
+
+    if (dateISO < dateMin) {
+      return res.status(400).json({
+        error:
+          "O agendamento deve ser feito com antecedencia de pelo menos 24hrs!",
+      });
+    }
+
     if (agendamentoExistente) {
       return res
         .status(400)
-        .json({ erro: "Horario ja ocupado! Escolha outro." });
+        .json({ error: "Horario ja ocupado! Escolha outro." });
     }
 
     const appointment = await prisma.appointment.create({
       data: {
-        userId: userId,
+        userId: Number(userId),
         servico: servico,
         dataHora: dateISO,
       },

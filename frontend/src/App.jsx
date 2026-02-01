@@ -44,7 +44,6 @@ function App() {
                 Olá, {usuario.name}
               </span>
 
-              {/* LÓGICA DO MENU: É Admin ou Cliente? */}
               {usuario.tipo === "admin" ? (
                 // SE FOR ADMIN:
                 <Link
@@ -54,7 +53,6 @@ function App() {
                   Painel
                 </Link>
               ) : (
-                // SE FOR CLIENTE (Aqui estava faltando o segundo link):
                 <>
                   <Link
                     to="/agendar"
