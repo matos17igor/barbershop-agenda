@@ -150,6 +150,29 @@ app.get("/appointments/user/:userId", async (req, res) => {
   }
 });
 
+// Editar usuario
+app.put("/users/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name, email } = req.body;
+
+  try {
+    const usuarioAtualizado = await prisma.user.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        name: name,
+        email: email,
+      },
+    });
+    return res.status(200).json(usuarioAtualizado);
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ error: "Erro ao atualizar dados. Tente outro email..." });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

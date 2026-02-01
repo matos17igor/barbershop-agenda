@@ -18,7 +18,7 @@ export default function Login({ onLogin }) {
       });
 
       if (!resposta.ok) {
-        toast.success("Email ou senha inválidos! ❌");
+        toast.error("Email ou senha inválidos! ❌");
         return;
       }
 
@@ -38,7 +38,7 @@ export default function Login({ onLogin }) {
         navigate("/agendar");
       }
     } catch (error) {
-      toast.success("Erro ao conectar no servidor.");
+      toast.error("Erro ao conectar no servidor.");
     }
   };
 
