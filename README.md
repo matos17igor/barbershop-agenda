@@ -91,7 +91,9 @@ Instale as dependências
 npm install
 ```
 
-# Inicie a aplicação
+Inicie a aplicação
+```bash
 npm run dev
-# O app estará disponível no seu navegador em http://localhost:5173
+```
+O app estará disponível no seu navegador em http://localhost:5173
 
