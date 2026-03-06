@@ -52,11 +52,15 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 git clone https://github.com/matos17igor/barbershop-agenda
 ```
 ### 2. Configurando o Backend
-# Entre na pasta do backend
+Entre na pasta do backend
+```bash
 cd backend
+```
 
-# Instale as dependências
+Instale as dependências
+```bash
 npm install
+```
 
 ### 3. Configurar o Banco de Dados
 
@@ -65,19 +69,27 @@ Crie um arquivo chamado `.env` na raiz da pasta backend e adicione a URL do seu 
 ```env
 DATABASE_URL="mysql://usuario:senha@localhost:3306/barbearia"
 ```
-# Rode as migrations do Prisma para criar as tabelas no banco
+Rode as migrations do Prisma para criar as tabelas no banco
+```bash
 npx prisma migrate dev
+```
 
-# Inicie o servidor
+Inicie o servidor
+```bash
 npm start
-# O servidor iniciará na porta 3001
+```
+O servidor iniciará na porta 3001
 
 ### 3. Configurando o Frontend
-# Abra um novo terminal e entre na pasta do frontend
+Abra um novo terminal e entre na pasta do frontend
+```bash
 cd frontend
+```
 
-# Instale as dependências
+Instale as dependências
+```bash
 npm install
+```
 
 # Inicie a aplicação
 npm run dev
